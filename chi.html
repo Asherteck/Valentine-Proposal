@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Will You Be My Valentine?</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #ffccf9, #ffb6c1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Comic Sans MS', cursive;
+            overflow: hidden;
+        }
+        .card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(255, 51, 102, 0.2);
+            max-width: 500px;
+            position: relative;
+            overflow: visible;
+        }
+        .cat {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        h1 {
+            font-size: 2.2rem;
+            color: #ff3366;
+            margin: 1.5rem 0;
+        }
+        .button-area {
+            position: relative;
+            height: 80px;
+            margin-top: 2rem;
+        }
+        button {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        #yes-btn {
+            background: #ff3366;
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 51, 102, 0.4);
+            position: relative;
+            z-index: 10;
+        }
+        #yes-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 51, 102, 0.6);
+        }
+        #no-btn {
+            background: #e0e0e0;
+            color: #555;
+            position: absolute;
+            z-index: 20;
+        }
+        .celebration {
+            display: none;
+            animation: fadeIn 1.5s;
+            margin-top: 20px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff3366;
+            border-radius: 50%;
+            animation: fall 5s linear forwards;
+        }
+        @keyframes fall {
+            to { transform: translateY(100vh); }
+        }
+    </style>
+</head>
+<body>
+    <div class="card" id="proposal-card">
+        <div class="cat">🐱</div>
+        <h1>Chidinma, will you be my valentine?</h1>
+        
+        <div class="button-area" id="button-area">
+            <button id="yes-btn">Yes</button>
+            <button id="no-btn">No</button>
+        </div>
+        
+        <div id="celebration" class="celebration">
+            <h2>YAY! 🎉 I'm so happy!</h2>
+            <div style="margin: 1.5rem 0;">
+                <!-- ✅ WORKING IMAGE - Replace this URL with yours -->
+                <img src="<a href="https://imgbb.com/"><img src="https://i.ibb.co/fdwPcd21/source.gif" alt="source" border="0" /></a>" "I LOVE YOU MY CARINO" >
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('no-btn');
+        const buttonArea = document.getElementById('button-area');
+        let attempts = 0;
+        
+        // Position "No" button initially
+        noBtn.style.left = '240px';
+        noBtn.style.top = '20px';
+        
+        // Move when mouse approaches
+        noBtn.addEventListener('mouseenter', () => {
+            moveNoButtonAway();
+        });
+        
+        // Move when clicked
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            attempts++;
+            moveNoButtonAway();
+            
+            if (attempts >= 5) {
+                alert("You can't say no to love! 😘 Just click YES!");
+            }
+        });
+        
+        // Yes button - show celebration
+        document.getElementById('yes-btn').addEventListener('click', function() {
+            document.querySelector('.button-area').style.display = 'none';
+            document.getElementById('celebration').style.display = 'block';
+            createConfetti();
+        });
+        
+        function moveNoButtonAway() {
+            const areaRect = buttonArea.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+            
+            const minX = 20;
+            const maxX = areaRect.width - btnRect.width - 20;
+            const minY = 10;
+            const maxY = areaRect.height - btnRect.height - 10;
+            
+            const randomX = Math.floor(Math.random() * (maxX - minX)) + minX;
+            const randomY = Math.floor(Math.random() * (maxY - minY)) + minY;
+            
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            
+            noBtn.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                noBtn.style.transform = 'scale(1)';
+            }, 150);
+        }
+        
+        function createConfetti() {
+            const confettiCount = 150;
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = getRandomColor();
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    document.body.removeChild(confetti);
+                }, 5000);
+            }
+        }
+        
+        function getRandomColor() {
+            const colors = ['#ff3366', '#ffcc00', '#33ccff', '#99ff99', '#ff6b6b', '#cc99ff'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+    </script>
+</body>
+</html>
